@@ -182,6 +182,8 @@ return [
          * Services providers de terceros
          */
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        Barryvdh\Cors\ServiceProvider::class,
+
 
     ],
 
