@@ -16,4 +16,10 @@ class Category extends Model
     	return $this->belongsTo('App\User');
     }
 
+    
+    public function notes()
+    {
+    	return $this->belongsTo('App\Note');
+    }
+
 }

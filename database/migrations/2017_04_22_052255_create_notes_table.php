@@ -17,8 +17,11 @@ class CreateNotesTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('note');
+            $table->boolean('status')->default(false);
+            $table->integer('user_id')->unsigned();
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('category')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
