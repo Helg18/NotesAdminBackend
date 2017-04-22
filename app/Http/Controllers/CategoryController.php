@@ -37,7 +37,7 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $attributes['user_id'] = $request->user()->id;
+        $attributes['user_id']   = $request->user()->id;
         $attributes['categoria'] = $request->category;
         $this->category->create($attributes);
 
@@ -79,8 +79,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::find($id);
-        $category->delete();
+        $this->category->delete($id);
         
         return response()->json(['msg'=>'Categoria eliminada exitosamente']);
     }

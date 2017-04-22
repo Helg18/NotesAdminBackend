@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Note;
+use App\Repositories\Note\NoteRepository;
 
 class NotesController extends Controller
 {
+
+    private $note;
+
+    function __construct(NoteRepository $note)
+    {
+        $this->note = $note;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +22,7 @@ class NotesController extends Controller
      */
     public function index()
     {
-        $note = Note::all();
-        return response()->json($note);
+        return $this->note->getAll();
     }
 
     /**
@@ -26,12 +33,12 @@ class NotesController extends Controller
      */
     public function store(Request $request)
     {
-        $note = new Note;
-        $note->title = $request->title;
-        $note->note = $request->note;
-        $note->category_id = $request->category_id;
-        $note->user_id = $request->user()->id;
-        $note->save();
+        $attributes['user_id']     = $request->user()->id;
+        $attributes['note']        = $request->note;
+        $attributes['title']       = $request->title;
+        $attributes['category_id'] = $request->category_id;
+
+        $this->note->create($attributes);
 
         return response()->json(['msg'=>'Nota creada exitosamente']);
     }
@@ -44,8 +51,7 @@ class NotesController extends Controller
      */
     public function show($id)
     {
-        $note = Note::find($id);
-        return response()->json($note);
+        return $this->note->getById($id);
     }
 
     /**
@@ -57,12 +63,13 @@ class NotesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $note = Note::find($id);
-        $note->title = $request->title;
-        $note->note = $request->note;
-        $note->category_id = $request->category_id;
-        $note->status = $request->status;
-        $note->save();
+        $attributes['user_id']     = $request->user()->id;
+        $attributes['note']        = $request->note;
+        $attributes['title']       = $request->title;
+        $attributes['category_id'] = $request->category_id;
+        $attributes['status']      = $request->status;
+
+        $this->category->update($id, $attributes);
 
         return response()->json(['msg'=>'Nota actualizada exitosamente']);
     }
@@ -75,8 +82,7 @@ class NotesController extends Controller
      */
     public function destroy($id)
     {
-        $note = Note::find($id);
-        $note->delete();
+        $this->note->delete($id);
         
         return response()->json(['msg'=>'Nota eliminada exitosamente']);
     }
