@@ -5,9 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Category;
 use App\Http\Requests\CategoryRequest;
+use App\Repositories\Category\CategoryRepository;
 
 class CategoryController extends Controller
 {
+
+    private $category;
+
+
+
+    function __construct(CategoryRepository $category)
+    {
+        $this->category = $category;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +25,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::all();
-        return response()->json($category);
+        return $this->category->getAll();
     }
 
 
@@ -28,10 +37,9 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $category = new Category;
-        $category->categoria = $request->category;
-        $category->user_id = $request->user()->id;
-        $category->save();
+        $attributes['user_id'] = $request->user()->id;
+        $attributes['categoria'] = $request->category;
+        $this->category->create($attributes);
 
         return response()->json(['msg'=>'Categoria creada exitosamente']);
         
@@ -45,8 +53,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::find($id);
-        return response()->json($category);
+        return $this->category->getById($id);
     }
 
     /**
@@ -58,9 +65,8 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, $id)
     {
-        $category = Category::find($id);
-        $category->categoria = $request->category;
-        $category->save();
+        $attributes['categoria'] = $request->category;
+        $this->category->update($id, $attributes);
 
         return response()->json(['msg'=>'Categoria actualizada exitosamente']);
     }
