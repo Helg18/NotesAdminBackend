@@ -18,6 +18,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'cors'], function () {
+	//Register
 	Route::post('register', 'UserController@register');
+
+	//Login
 	Route::post('login', 'UserController@login');
+
+	//Grupo de categorias
+	Route::group(['middleware' => 'checkToken'], function () {
+		Route::resource('category', 'CategoryController');
+	});
 });
