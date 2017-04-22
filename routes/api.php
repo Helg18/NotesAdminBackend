@@ -27,5 +27,6 @@ Route::group(['middleware' => 'cors'], function () {
 	//Grupo de categorias
 	Route::group(['middleware' => 'checkToken'], function () {
 		Route::resource('category', 'CategoryController');
+		Route::resource('note', 'NotesController');
 	});
 });
