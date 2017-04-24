@@ -22,9 +22,6 @@ class EloquentNote implements NoteRepository
 		$data = [];
 		foreach($alldata as $c){
 			$item = $c->toArray();
-			$item["title"]         = $c->title;
-			$item["note"]          = $c->note;
-			$item["status"]        = $c->status;
 			$item["category_name"] = $c->category->categoria;
 			$item["user_name"]     = $c->user->name;
 			
