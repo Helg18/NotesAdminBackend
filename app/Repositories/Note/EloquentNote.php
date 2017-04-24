@@ -17,11 +17,34 @@ class EloquentNote implements NoteRepository
 	}
 
 	public function getAll(){
-		return $this->note->all();
+
+		$alldata = $this->note->all();
+		$data = [];
+		foreach($alldata as $c){
+			$item = $c->toArray();
+			$item["title"]         = $c->title;
+			$item["note"]          = $c->note;
+			$item["status"]        = $c->status;
+			$item["category_name"] = $c->category->categoria;
+			$item["user_name"]     = $c->user->name;
+			
+			$data[] = $item;
+		}
+		return $data;
 	}
 
+
 	public function getById($id){
-		return $this->note->findOrFail($id);
+		$c = $this->note->findOrFail($id);
+		$data = [];
+		
+		$item = $c->toArray();
+		$item["user_name"]     = $c->user->name;
+		$item["category_name"] = $c->category->categoria;
+		
+		$data[] = $item;
+
+		return $data;
 	}
 
 	public function create( array $attributes ){
