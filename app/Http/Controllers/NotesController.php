@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Note;
 use App\Repositories\Note\NoteRepository;
+use App\Http\Requests\NoteRequest;
 
 class NotesController extends Controller
 {
@@ -31,11 +32,12 @@ class NotesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NoteRequest $request)
     {
         $attributes['user_id']     = $request->user()->id;
         $attributes['note']        = $request->note;
         $attributes['title']       = $request->title;
+        $attributes['status']      = 0;
         $attributes['category_id'] = $request->category_id;
 
         $this->note->create($attributes);
