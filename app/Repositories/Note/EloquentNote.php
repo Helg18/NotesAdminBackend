@@ -24,6 +24,7 @@ class EloquentNote implements NoteRepository
 			$item = $c->toArray();
 			$item["category_name"] = $c->category->categoria;
 			$item["user_name"]     = $c->user->name;
+			$item["user_email"]    = $c->user->email;
 			
 			$data[] = $item;
 		}
@@ -36,8 +37,9 @@ class EloquentNote implements NoteRepository
 		$data = [];
 		
 		$item = $c->toArray();
-		$item["user_name"]     = $c->user->name;
 		$item["category_name"] = $c->category->categoria;
+		$item["user_name"]     = $c->user->name;
+		$item["user_email"]    = $c->user->email;
 		
 		$data[] = $item;
 
