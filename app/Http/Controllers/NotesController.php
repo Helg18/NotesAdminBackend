@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Note;
 use App\Repositories\Note\NoteRepository;
 use App\Http\Requests\NoteRequest;
+use App\Http\Requests\NoteupdateRequest;
 
 class NotesController extends Controller
 {
@@ -71,7 +72,7 @@ class NotesController extends Controller
         $attributes['category_id'] = $request->category_id;
         $attributes['status']      = $request->status;
 
-        $this->category->update($id, $attributes);
+        $this->note->update($id, $attributes);
 
         return response()->json(['msg'=>'Nota actualizada exitosamente']);
     }
